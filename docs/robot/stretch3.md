@@ -1,6 +1,6 @@
 # Hello Robot Stretch 3
 
-![Stretch3 Robot](../assets/robot/stretch3-2.png){ width=380px } 
+![Stretch3 Robot](../assets/robot/stretch3-2.png){ width=340px } 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -70,7 +70,8 @@
 1. 將電腦開機，並使用 SSH 遠端登入。  
 2. 找空的資料夾路徑(如 `/home/hrc/myname/` )，下載此 repo。  
    ```
-   git clone https://github.com/hrc-pme/helloRobot_stretch3.git
+   git clone --recurse-submodules https://github.com/hrc-pme/helloRobot_stretch3.git
+   cd helloRobot_stretch3
    ```
 3. 在 repo 根目錄執行 `source run.sh`，會跳出頁面如下。
    
