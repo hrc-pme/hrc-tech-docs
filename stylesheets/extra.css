@@ -1,0 +1,27 @@
+/* inline code */
+.md-typeset code {
+  background-color: #2e2e2e; 
+  color: #ffca28;            
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+}
+
+/* Heading colors - different teal levels */
+/* h2 (##) - darker teal */
+.md-typeset h2 {
+  color: #009688;  /* Material Teal 500 */
+}
+
+/* h3 (###) - lighter teal */
+.md-typeset h3 {
+  color: #26a69a;  /* Material Teal 400 */
+}
+
+/* For dark mode, use lighter teal colors for better contrast */
+[data-md-color-scheme="slate"] .md-typeset h2 {
+  color: #4db6ac;  /* Material Teal 300 */
+}
+
+[data-md-color-scheme="slate"] .md-typeset h3 {
+  color: #80cbc4;  /* Material Teal 200 */
+}
