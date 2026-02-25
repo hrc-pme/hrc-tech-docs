@@ -90,6 +90,7 @@ nav:
     - Interbotix LoCoBot: robot/locobot.md
     - Koch Robot Arm V1.1: robot/koch.md
     - OpenDuck: robot/openduck.md
+    - OpenArm: robot/openarm.md
 
   - Tutorials:
     - tutorials/index.md
