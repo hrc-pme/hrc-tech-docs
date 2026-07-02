@@ -86,6 +86,7 @@ nav:
     - 3.Project-based Repo: tutorials/3.repo.md
     - 4.ETH over SSH: tutorials/4.eth-over-ssh.md
     - 5.Zenoh Middleware: tutorials/5.zenoh-middleware.md
+    - 6.UniFi on NAS: tutorials/6.unifi-on-nas.md
 
   - Robots:
     - robot/index.md
