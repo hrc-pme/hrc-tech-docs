@@ -4,6 +4,8 @@
 
 ## 1. Setup
 
+> 此章節可跳過，須校正馬達時在來參考本篇即可。
+
 ---
 
 ### 1-1. Motors
@@ -50,6 +52,8 @@
 ---
 
 ## 2. Test & Calibration
+
+> 此章節可跳過，須校正馬達時在來參考本篇即可。
 
 > Documentation:  
 > [Arm Control — Interbotix X-Series Arms Documentation](https://docs.trossenrobotics.com/interbotix_xsarms_docs/ros2_packages/arm_control.html#)
@@ -128,3 +132,53 @@
         因為 ROS2 會設置 `Operateing Mode` 皆為 `Position Control`（ 不在 `yaml` 裡 ），所以 `homing_offset` 只能在正負 90 度之間調整。
         2. 拆卸機構和馬達，保持上電的情況下，手動旋轉馬達舵機盤 90~180 度。
         3. 鎖緊機構後再回到第一步。
+   
+---
+
+## 3. Hardware
+
+### 3-1. Power 
+
+如下圖所示，ViperX 有一個 USB 轉接頭 (U2D2)，須連接到電腦上通訊。  
+另一個則為馬達直流供應電源，須連接到官方提供的降壓器(就是下方很肥的那個)。
+
+![](../assets/robot/viperx-power.png)
+
+!!! warning 手臂防護
+
+    由於手臂本身沒有保護功能，運行中斷電或通訊失效，整台手臂會直接砸下來。  
+    手臂還蠻重的，請在操作它前預留工作空間，和一些緩衝措施(如加海綿塊)。 
+
+---
+
+## 4. Software
+
+由於 Stretch3 使用者多，每人開發習慣不同，也使用不同 repo。  
+以下開啟方式為 @pomelo925 維護，如果須特定功能請找相關的開發者哦。
+
+> Repository: https://github.com/hrc-pme/interbotix_viperX300s.git
+
+開啟步驟：
+
+1. 將 ViperX300S USB 連線至自己的電腦上。
+2. 找空的資料夾路徑(如 `/home/hrc/myname/` )，下載此 repo。  
+   ```
+    git clone --recurse-submodules git@github.com:hrc-pme/interbotix_viperX300s.git  
+    cd interbotix_viperX300s
+   ```
+3. (僅首次或更改代碼時須) 編譯 ROS2 Workspace。  
+   此腳本自動建立容器並進行編譯，結束時會自動關閉。  
+   建構完的檔案應同步 mount 於本地檔案中。
+   ```
+    cd ros2 && source run.sh build
+   ```
+4. 運行腳本啟動服務。
+   ```
+   source run.sh [service]
+   ```
+
+    不同的功能已經被封裝成獨立的容器，其中：
+    
+    * raw: 進入開發環境，不執行任何程式。
+    * build: 編譯環境。
+    * rviz-ee: 使用 RViz2 界面控制 ViperX300s end effector。
