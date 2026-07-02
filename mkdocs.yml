@@ -69,7 +69,9 @@ theme:
 nav:
   - Home: index.md
 
-  - O-Week: 
+  - Lab Rules: lab-rules.md
+
+  - O-Week:
     - oweek/index.md
     - 1.Linux: oweek/1.linux.md
     - 2.SSH: oweek/2.ssh.md
@@ -77,13 +79,15 @@ nav:
     - 4.Docker: oweek/4.docker.md
     - 5.ROS2: oweek/5.ros2.md
 
-  - Conventions: 
-    - conventions/index.md
-    - 1.commit: conventions/1.commit.md
-    - 2.gitignore: conventions/2.gitignore.md
-    - 3.repo.md: conventions/3.repo.md
+  - Tutorials:
+    - tutorials/index.md
+    - 1.Commit: tutorials/1.commit.md
+    - 2.Gitignore: tutorials/2.gitignore.md
+    - 3.Project-based Repo: tutorials/3.repo.md
+    - 4.ETH over SSH: tutorials/4.eth-over-ssh.md
+    - 5.Zenoh Middleware: tutorials/5.zenoh-middleware.md
 
-  - Robot: 
+  - Robots:
     - robot/index.md
     - Hello Robot Stretch 3: robot/stretch3.md
     - Interbotix ViperX300s: robot/viperX300s.md
@@ -92,15 +96,6 @@ nav:
     - OpenDuck: robot/openduck.md
     - OpenArm: robot/openarm.md
 
-  - Tutorials:
-    - tutorials/index.md
-    - Hardware:
-      - tutorials/hardware/index.md
-    - Firmwware:
-      - tutorials/firmware/index.md
-    - Software:
-      - tutorials/software/index.md
-  
   - Contribution Guide: contribution.md
 
 markdown_extensions:
