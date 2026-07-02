@@ -14,8 +14,10 @@
 | 3 | [Project-based Repository](3.repo/) | 實驗室標準專案目錄結構 |
 | 4 | [ETH over SSH](4.eth-over-ssh/) | 乙太網路直連與靜態 IP 設定 |
 | 5 | [Zenoh Middleware](5.zenoh-middleware/) | 以 rmw_zenoh 進行跨機 ROS 2 通訊 |
+| 6 | [UniFi on NAS](6.unifi-on-nas/) | 在 Synology NAS 以 Container Manager 部署 UniFi Controller |
 
 !!! tip "與 O-Week 的關係"
 
     - **§1–§3** 延伸 O-Week Git / Docker 內容，適用於開始 contribute 或建立新專案時。
     - **§4–§5** 面向機器人實驗場景，建議在需要連線至實機或跨機 ROS 2 時再閱讀。
+    - **§6** 面向實驗室網路管理，在 Synology NAS 上托管 UniFi Controller 時閱讀。
