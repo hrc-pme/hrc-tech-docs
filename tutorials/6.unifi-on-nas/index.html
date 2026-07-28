@@ -1,0 +1,2649 @@
+
+<!doctype html>
+<html lang="zh-TW" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://hrc-pme.github.io/hrc-tech-docs/tutorials/6.unifi-on-nas/">
+      
+      
+        <link rel="prev" href="../5.zenoh-middleware/">
+      
+      
+        <link rel="next" href="../../robot/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>6.UniFi on NAS - HRC Tech Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Huninn:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Huninn";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#6-unifi-on-nas" class="md-skip">
+          跳轉到
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="頁首">
+    <a href="../.." title="HRC Tech Docs" class="md-header__button md-logo" aria-label="HRC Tech Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HRC Tech Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6.UniFi on NAS
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 2c-1.82 0-3.53.5-5 1.35C8 5.08 10 8.3 10 12s-2 6.92-5 8.65C6.47 21.5 8.18 22 10 22a10 10 0 0 0 10-10A10 10 0 0 0 10 2"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hrc-pme/hrc-tech-docs.git" title="前往倉庫" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.73 5.73 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218M4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5m8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M5 3.25a.75.75 0 1 0 0 .005z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hrc-pme/hrc-tech-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="標籤" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../lab-rules/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Lab Rules
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../oweek/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  O-Week
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../robot/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Robots
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../contribution/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contribution Guide
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="導覽列" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HRC Tech Docs" class="md-nav__button md-logo" aria-label="HRC Tech Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HRC Tech Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hrc-pme/hrc-tech-docs.git" title="前往倉庫" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.73 5.73 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218M4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5m8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M5 3.25a.75.75 0 1 0 0 .005z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hrc-pme/hrc-tech-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab-rules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab Rules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../oweek/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    O-Week
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.commit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.Commit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2.gitignore/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.Gitignore
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.Project-based Repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4.eth-over-ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.ETH over SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5.zenoh-middleware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.Zenoh Middleware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.UniFi on NAS
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.UniFi on NAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目錄">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目錄
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 背景
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 背景">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1-1. 為何需要獨立 Controller？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1-2. 架構概覽
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 前置條件
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-container-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 安裝 Container Manager
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 建立目錄與初始化腳本
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 建立目錄與初始化腳本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-1. 目錄結構
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-init-mongosh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-2. 建立 init-mongo.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-3. 設定腳本權限（工作排程器）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-puid-pgid-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 查詢 PUID / PGID（無 SSH）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 查詢 PUID / PGID（無 SSH）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5-1. 以 Email 取得結果
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5-2. 寫入文字檔（免設定 Email）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5-3. 設定實體路徑權限
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Docker Compose 設定
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Docker Compose 設定">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6-1. 完整 docker-compose.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6-2. 埠映射說明
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 部署步驟
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-override-inform-host-adoption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Override Inform Host 與裝置 Adoption
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Override Inform Host 與裝置 Adoption">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-1. 網路拓撲前提
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-override-inform-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-2. 設定 Override Inform Host
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-3-adopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-3. Adopt 裝置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-4-ap-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-4. 將 AP 設為靜態 IP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8-4. 將 AP 設為靜態 IP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-4-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-4-1. 進入設定頁面
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-4-2-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-4-2. 設定靜態 IP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 常見問題
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. 常見問題">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-1-driver-failed-programming-external-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-1. driver failed programming external connectivity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-2-ap-adopting-led" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-2. AP 卡在 Adopting 迴圈 / LED 常亮白
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-3-unifi-db-exitcode-100" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-3. unifi-db 不斷重啟（exitCode 100）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-4-undefined-volume-unifi-mongo-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-4. undefined volume unifi-mongo-data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-5-web-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-5. Web UI 無法連線
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-6. 更新與備份
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-7-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-7. 每次重啟容器都被強制要求重新設定server帳密（完全失憶）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-8. 進階補充：為何資料庫不使用實體路徑掛載？
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 參考連結
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../robot/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Robots
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribution Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目錄">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目錄
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 背景
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 背景">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1-1. 為何需要獨立 Controller？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1-2. 架構概覽
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 前置條件
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-container-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 安裝 Container Manager
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 建立目錄與初始化腳本
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 建立目錄與初始化腳本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-1. 目錄結構
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2-init-mongosh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-2. 建立 init-mongo.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-3. 設定腳本權限（工作排程器）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-puid-pgid-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 查詢 PUID / PGID（無 SSH）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 查詢 PUID / PGID（無 SSH）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-1-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5-1. 以 Email 取得結果
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-2-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5-2. 寫入文字檔（免設定 Email）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5-3. 設定實體路徑權限
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Docker Compose 設定
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Docker Compose 設定">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-1-docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6-1. 完整 docker-compose.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6-2. 埠映射說明
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 部署步驟
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-override-inform-host-adoption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Override Inform Host 與裝置 Adoption
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Override Inform Host 與裝置 Adoption">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-1. 網路拓撲前提
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-2-override-inform-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-2. 設定 Override Inform Host
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-3-adopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-3. Adopt 裝置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-4-ap-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-4. 將 AP 設為靜態 IP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8-4. 將 AP 設為靜態 IP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8-4-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-4-1. 進入設定頁面
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-4-2-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8-4-2. 設定靜態 IP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 常見問題
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. 常見問題">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-1-driver-failed-programming-external-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-1. driver failed programming external connectivity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-2-ap-adopting-led" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-2. AP 卡在 Adopting 迴圈 / LED 常亮白
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-3-unifi-db-exitcode-100" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-3. unifi-db 不斷重啟（exitCode 100）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-4-undefined-volume-unifi-mongo-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-4. undefined volume unifi-mongo-data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-5-web-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-5. Web UI 無法連線
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-6. 更新與備份
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-7-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-7. 每次重啟容器都被強制要求重新設定server帳密（完全失憶）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9-8. 進階補充：為何資料庫不使用實體路徑掛載？
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 參考連結
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/hrc-pme/hrc-tech-docs.git/edit/master/docs/tutorials/6.unifi-on-nas.md" title="編輯此頁" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/hrc-pme/hrc-tech-docs.git/raw/master/docs/tutorials/6.unifi-on-nas.md" title="查看此頁原始碼" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="6-unifi-on-nas">6. UniFi on NAS<a class="headerlink" href="#6-unifi-on-nas" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>本教學說明如何在 Synology NAS 上以 <strong>Container Manager</strong>（Docker）部署 <a href="https://docs.linuxserver.io/images/docker-unifi-network-application/">UniFi Network Application</a>（UniFi Controller），供實驗室管理 UniFi AP、交換器等網路設備。<br />
+部署採 <strong>Docker Compose 專案</strong>，同時運行 UniFi 與 MongoDB 兩個容器。</p>
+</blockquote>
+<div class="admonition tip">
+<p class="admonition-title">推薦資源</p>
+<p>Docker 基礎概念請先參閱 O-Week 的 <a href="../oweek/4.docker/">4. Docker</a>。<br />
+LinuxServer.io 官方文件：<a href="https://docs.linuxserver.io/images/docker-unifi-network-application/">unifi-network-application</a></p>
+</div>
+<hr />
+<h2 id="1">1. 背景<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<h3 id="1-1-controller">1-1. 為何需要獨立 Controller？<a class="headerlink" href="#1-1-controller" title="Permanent link">&para;</a></h3>
+<p>UniFi 裝置（AP、Switch 等）需由 <strong>Network Application</strong> 集中管理：設定 Wi-Fi、更新韌體、監控連線狀態。<br />
+Ubiquiti 提供 Cloud Gateway 等硬體內建 Controller；若實驗室已有 Synology NAS，也可在 NAS 上以容器自行托管，無需額外購買 Cloud Key。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>映像檔來源</strong></td>
+<td><code>lscr.io/linuxserver/unifi-network-application</code></td>
+</tr>
+<tr>
+<td><strong>資料庫</strong></td>
+<td>現行版本<strong>必須</strong>搭配外部 <strong>MongoDB</strong>（不可只跑單一 UniFi 容器）</td>
+</tr>
+<tr>
+<td><strong>管理介面</strong></td>
+<td>瀏覽器開啟 <code>https://&lt;NAS_IP&gt;:8444</code>（本教學預設 host 埠 8444）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="1-2">1-2. 架構概覽<a class="headerlink" href="#1-2" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Synology NAS (Container Manager)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>┌─────────────────────────────────────────────────────┐
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│  Project: unifi                                     │
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│  ┌─────────────────┐    ┌─────────────────────────┐ │
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│  │  unifi-db       │◄───│  unifi-network-         │ │
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│  │  (mongo:7.0)    │    │  application            │ │
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│  │  :27017 (內網)  │    │  Web :8444 → :8443      │ │
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│  └─────────────────┘    │  Device :8080           │ │
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│                         └─────────────────────────┘ │
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>└─────────────────────────────────────────────────────┘
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>         ▲                           ▲
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>         │                           │
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    MongoDB 資料               UniFi AP / Switch（Inform Host → NAS IP）
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">版本與遷移</p>
+<p>舊版 <code>linuxserver/unifi-controller</code>（無 MongoDB）已 deprecated，<strong>無法原地升級</strong>。<br />
+若從舊版遷移，須在舊 Controller 匯出備份 → 部署新 Compose → 在新 UI 還原。</p>
+</div>
+<hr />
+<h2 id="2">2. 前置條件<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">硬體與軟體需求</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>建議</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DSM</strong></td>
+<td>7.2 以上（內建 Container Manager）</td>
+</tr>
+<tr>
+<td><strong>記憶體</strong></td>
+<td>至少 2 GB 可用 RAM（UniFi + MongoDB）</td>
+</tr>
+<tr>
+<td><strong>CPU</strong></td>
+<td>x86_64 或 arm64；x86 若用 MongoDB 4.4+ 需 CPU 支援 AVX</td>
+</tr>
+<tr>
+<td><strong>網路</strong></td>
+<td>NAS 建議使用<strong>固定 IP</strong>；裝置 adopt 時需能連到 NAS</td>
+</tr>
+</tbody>
+</table>
+<p>本教學以 <strong>DS1825+</strong>、DSM 7、Container Manager 實測流程撰寫；其他機型步驟相同，僅 volume 路徑可能不同（常見為 <code>/volume1/</code>）。</p>
+</div>
+<hr />
+<h2 id="3-container-manager">3. 安裝 Container Manager<a class="headerlink" href="#3-container-manager" title="Permanent link">&para;</a></h2>
+<ol>
+<li>開啟 <strong>套件中心</strong></li>
+<li>搜尋 <strong>Container Manager</strong>（舊版 DSM 可能顯示為 Docker）</li>
+<li>按 <strong>安裝</strong> 並等待完成</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Checkpoint</p>
+<ol>
+<li>主選單可開啟 <strong>Container Manager</strong>。</li>
+<li>左側可見 <strong>專案（Project）</strong>、<strong>容器</strong>、<strong>映像檔</strong> 等分頁。</li>
+</ol>
+</div>
+<hr />
+<h2 id="4">4. 建立目錄與初始化腳本<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<h3 id="4-1">4-1. 目錄結構<a class="headerlink" href="#4-1" title="Permanent link">&para;</a></h3>
+<p>在 <strong>File Station</strong> 建立以下結構（路徑可依 NAS volume 調整）：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>/volume1/docker/unifi/
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>├── config/              ← UniFi 設定（掛載至容器 /config）
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├── init-mongo.sh        ← MongoDB 首次初始化腳本
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>└── docker-compose.yml   ← Compose 設定（亦可僅在 Container Manager UI 編輯）
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">命名慣例</p>
+<p>資料夾名稱建議使用<strong>小寫</strong>（如 <code>unifi</code>），避免部分工具對大小寫敏感。</p>
+</div>
+<hr />
+<h3 id="4-2-init-mongosh">4-2. 建立 <code>init-mongo.sh</code><a class="headerlink" href="#4-2-init-mongosh" title="Permanent link">&para;</a></h3>
+<p>MongoDB 首次啟動時須建立 UniFi 專用使用者與資料庫。<br />
+內容請<strong>直接複製</strong> <a href="https://docs.linuxserver.io/images/docker-unifi-network-application/">LinuxServer.io 官方腳本</a>，<strong>不要修改</strong>：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">if</span><span class="w"> </span>which<span class="w"> </span>mongosh<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nv">mongo_init_bin</span><span class="o">=</span><span class="s1">&#39;mongosh&#39;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">else</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nv">mongo_init_bin</span><span class="o">=</span><span class="s1">&#39;mongo&#39;</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">fi</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="s2">&quot;</span><span class="si">${</span><span class="nv">mongo_init_bin</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="s">use ${MONGO_AUTHSOURCE}</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="s">db.auth(&quot;${MONGO_INITDB_ROOT_USERNAME}&quot;, &quot;${MONGO_INITDB_ROOT_PASSWORD}&quot;)</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="s">db.createUser({</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="s">  user: &quot;${MONGO_USER}&quot;,</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="s">  pwd: &quot;${MONGO_PASS}&quot;,</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="s">  roles: [</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="s">    &quot;clusterMonitor&quot;,</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="s">    { db: &quot;${MONGO_DBNAME}&quot;, role: &quot;dbOwner&quot; },</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="s">    { db: &quot;${MONGO_DBNAME}_stat&quot;, role: &quot;dbOwner&quot; },</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="s">    { db: &quot;${MONGO_DBNAME}_audit&quot;, role: &quot;dbOwner&quot; },</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="s">    { db: &quot;${MONGO_DBNAME}_restore&quot;, role: &quot;dbOwner&quot; }</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="s">  ]</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="s">})</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="s">EOF</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">腳本注意事項</p>
+<ul>
+<li>檔名須為 <code>init-mongo.sh</code>，不可存成 <code>.txt</code></li>
+<li>請用 <strong>LF</strong> 換行（勿用 Windows 記事本另存，以免 CRLF 導致 Linux 無法執行）</li>
+<li>此腳本<strong>只在 MongoDB 資料庫為空時</strong>執行一次；若之後改密碼或重建 DB，須刪除命名 volume 後重新部署</li>
+</ul>
+</div>
+<hr />
+<h3 id="4-3">4-3. 設定腳本權限（工作排程器）<a class="headerlink" href="#4-3" title="Permanent link">&para;</a></h3>
+<p>建立 <code>init-mongo.sh</code> 後，<strong>部署前</strong>須設定執行權限並移除可能的 Windows 換行，否則 MongoDB 初始化可能失敗、<code>unifi-db</code> 會不斷重啟。</p>
+<ol>
+<li><strong>控制台 → 工作排程器 → 新增 → 排程的工作 → 使用者定義的指令碼</strong></li>
+<li><strong>一般</strong>：<ul>
+<li>工作名稱：例如 <code>unifi init-mongo 權限</code></li>
+<li><strong>使用者</strong>：選 <strong>root</strong></li>
+</ul>
+</li>
+<li><strong>排程</strong>：選「在以下日期執行」→ <strong>不要重複</strong></li>
+<li>
+<p><strong>工作設定 → 執行指令</strong> 貼上：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>/volume1/docker/unifi/init-mongo.sh
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/\r$//&#39;</span><span class="w"> </span>/volume1/docker/unifi/init-mongo.sh
+</span></code></pre></div>
+</li>
+<li>
+<p>儲存 → 選中工作 → <strong>執行</strong> → 確認成功</p>
+</li>
+</ol>
+<p>若已設定 Email 通知，執行結果可寄至信箱確認無錯誤；或將輸出寫入檔案：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>/volume1/docker/unifi/init-mongo.sh
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/\r$//&#39;</span><span class="w"> </span>/volume1/docker/unifi/init-mongo.sh
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;init-mongo.sh ready&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/volume1/docker/unifi/init-mongo-ready.txt
+</span></code></pre></div>
+<p>至 File Station 確認 <code>init-mongo-ready.txt</code> 已產生。</p>
+<div class="admonition example">
+<p class="admonition-title">Checkpoint</p>
+<ol>
+<li><code>init-mongo.sh</code> 已存在於 <code>/volume1/docker/unifi/</code>。</li>
+<li>已以 <strong>root</strong> 工作排程器執行 <code>chmod +x</code> 與 <code>sed</code> 指令。</li>
+</ol>
+</div>
+<hr />
+<h2 id="5-puid-pgid-ssh">5. 查詢 PUID / PGID（無 SSH）<a class="headerlink" href="#5-puid-pgid-ssh" title="Permanent link">&para;</a></h2>
+<p>LinuxServer 映像檔需設定 <strong>PUID</strong>（使用者 ID）與 <strong>PGID</strong>（群組 ID），容器才能正確讀寫 <code>/config</code> 掛載目錄。<br />
+DSM <strong>沒有圖形介面</strong>直接顯示這組數字；若無法 SSH，可用 <strong>工作排程器</strong> 查詢。</p>
+<h3 id="5-1-email">5-1. 以 Email 取得結果<a class="headerlink" href="#5-1-email" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>控制台 → 工作排程器 → 新增 → 排程的工作 → 使用者定義的指令碼</strong></li>
+<li><strong>一般</strong>：<ul>
+<li>工作名稱：例如 <code>查詢 PUID PGID</code></li>
+<li><strong>使用者</strong>：選 <strong>admin</strong>（或實際建立 <code>/docker/unifi</code> 資料夾的帳號）</li>
+</ul>
+</li>
+<li><strong>排程</strong>：選「在以下日期執行」→ <strong>不要重複</strong></li>
+<li>
+<p><strong>工作設定</strong>：</p>
+<ul>
+<li>勾選 <strong>將執行結果以電子郵件寄出</strong>（須先在 <strong>控制台 → 通知 → 電子郵件</strong> 設定 SMTP）</li>
+<li>
+<p><strong>執行指令</strong> 輸入：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>id
+</span></code></pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p>儲存後，選中該工作 → <strong>執行</strong></p>
+</li>
+<li>
+<p>查收 Email，輸出類似：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>uid=1026(admin) gid=100(users) groups=100(users),101(administrators)
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>名稱</th>
+<th>對應值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PUID</strong></td>
+<td><code>1026</code>（<code>uid=</code> 後的數字）</td>
+</tr>
+<tr>
+<td><strong>PGID</strong></td>
+<td><code>100</code>（<code>gid=</code> 後的數字）</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="5-2-email">5-2. 寫入文字檔（免設定 Email）<a class="headerlink" href="#5-2-email" title="Permanent link">&para;</a></h3>
+<p><strong>執行指令</strong> 改為：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>id<span class="w"> </span>&gt;<span class="w"> </span>/volume1/docker/unifi/puid-gid.txt
+</span></code></pre></div>
+<p>執行後至 File Station 開啟 <code>puid-gid.txt</code> 查看。</p>
+<div class="admonition tip">
+<p class="admonition-title">查詢其他使用者</p>
+<p>將執行指令改為 <code>id 使用者名稱</code>，或在「一般」分頁的使用者下拉選單選擇目標帳號後執行 <code>id</code>。</p>
+</div>
+<h3 id="5-3">5-3. 設定實體路徑權限<a class="headerlink" href="#5-3" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">避坑指南：若未開權限可能導致server核心設定無法寫入，container重啟後又得重新初始化server</p>
+</div>
+<p>即使後續在 Docker Compose 中設定了本地路徑映射（<code>/config</code>），如果沒有正確賦予容器 NAS 的資料夾權限，UniFi 容器依然無法寫入核心設定檔。這會導致 <strong>「每次重開機都被強制要求重新初始化設定Server」</strong> 的嚴重問題。
+請在取得 PUID 對應的使用者帳號後，手動開放權限：</p>
+<ol>
+<li>
+<p>打開 Synology 的 File Station，找到你建立的 unifi 資料夾裡的config檔（路徑為 /volume1/docker/unifi/config）。</p>
+</li>
+<li>
+<p>對其點擊右鍵 ➔ 內容 ➔ 切換到 權限 頁籤。</p>
+</li>
+<li>
+<p>點擊 新增，選擇你剛剛查詢到的 PUID 對應的個人信箱帳號。</p>
+</li>
+<li>
+<p>給予該帳號 讀取 &amp; 寫入 的權限並儲存。</p>
+</li>
+</ol>
+<hr />
+<h2 id="6-docker-compose">6. Docker Compose 設定<a class="headerlink" href="#6-docker-compose" title="Permanent link">&para;</a></h2>
+<h3 id="6-1-docker-composeyml">6-1. 完整 <code>docker-compose.yml</code><a class="headerlink" href="#6-1-docker-composeyml" title="Permanent link">&para;</a></h3>
+<p>以下為 DS1825+ 實測可用的設定。請依實際環境替換 <strong>PUID</strong>、<strong>PGID</strong> 與 <strong>MongoDB 密碼</strong>：</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">services</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">unifi-db</span><span class="p">:</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mongo:7.0</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unifi-db</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="nt">stop_grace_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_INITDB_ROOT_USERNAME=root</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_INITDB_ROOT_PASSWORD=請改成強密碼</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_USER=unifi</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_PASS=請改成強密碼</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_DBNAME=unifi</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_AUTHSOURCE=admin</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unifi-mongo-data:/data/db</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/volume1/docker/unifi/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">  </span><span class="nt">unifi-network-application</span><span class="p">:</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lscr.io/linuxserver/unifi-network-application:latest</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unifi-network-application</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">    </span><span class="nt">stop_grace_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unifi-db</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PUID=1026</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGID=100</span>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TZ=Asia/Taipei</span>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_USER=unifi</span>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_PASS=請改成強密碼</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_HOST=unifi-db</span>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_PORT=27017</span>
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_DBNAME=unifi</span>
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONGO_AUTHSOURCE=admin</span>
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEM_LIMIT=1024</span>
+</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEM_STARTUP=1024</span>
+</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/volume1/docker/unifi/config:/config</span>
+</span><span id="__span-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+</span><span id="__span-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8444:8443</span>
+</span><span id="__span-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080:8080</span>
+</span><span id="__span-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3478:3478/udp</span>
+</span><span id="__span-8-42"><a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10001:10001/udp</span>
+</span><span id="__span-8-43"><a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+</span><span id="__span-8-44"><a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>
+</span><span id="__span-8-45"><a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-8-46"><a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a><span class="w">  </span><span class="nt">unifi-mongo-data</span><span class="p">:</span>
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">密碼設定</p>
+<ul>
+<li>密碼可自訂，但 <strong><code>MONGO_PASS</code> 在 <code>unifi-db</code> 與 <code>unifi-network-application</code> 必須完全相同</strong></li>
+<li><strong><code>MONGO_INITDB_ROOT_PASSWORD</code></strong> 為 MongoDB root 密碼，建議與 <code>MONGO_PASS</code> 分開設定</li>
+<li>請勿留空；若曾以空密碼部署失敗，須刪除命名 volume 後重新部署</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">命名 volume</p>
+<p>MongoDB 資料使用 Docker 命名 volume <code>unifi-mongo-data</code>，可避免 Synology bind mount 常見的 uid 999 權限問題。 (詳情見§9-8) 
+檔案末尾的 <code>volumes:</code> 區塊<strong>不可省略</strong>，否則會出現 <code>undefined volume unifi-mongo-data</code> 錯誤。</p>
+</div>
+<hr />
+<h3 id="6-2">6-2. 埠映射說明<a class="headerlink" href="#6-2" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Host 埠</th>
+<th>容器埠</th>
+<th>協定</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>8444</code></td>
+<td><code>8443</code></td>
+<td>TCP</td>
+<td>Web 管理介面（HTTPS）；避開 DSM CardDAV 常佔用的 8443</td>
+</tr>
+<tr>
+<td><code>8080</code></td>
+<td><code>8080</code></td>
+<td>TCP</td>
+<td>裝置通訊；adopt 時 Inform 須指向此埠</td>
+</tr>
+<tr>
+<td><code>3478</code></td>
+<td><code>3478</code></td>
+<td>UDP</td>
+<td>STUN</td>
+</tr>
+<tr>
+<td><code>10001</code></td>
+<td><code>10001</code></td>
+<td>UDP</td>
+<td>AP 探索</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">勿映射 1900/udp</p>
+<p>DSM 系統服務常佔用 <strong>1900/udp</strong>（SSDP/UPnP），映射 <code>1900:1900/udp</code> 會導致 UniFi 容器無法啟動。<br />
+若需 L2 探索，可改試 <code>1901:1900/udp</code>；多數情境下省略 1900 仍可正常管理，僅需手動設定 Inform Host。</p>
+</div>
+<p><strong>請勿</strong>對外映射 MongoDB 的 <code>27017</code> 埠。</p>
+<hr />
+<h2 id="7">7. 部署步驟<a class="headerlink" href="#7" title="Permanent link">&para;</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">部署前確認</p>
+<p>請確認已完成：</p>
+<ul>
+<li><a href="#4-1-目錄結構">§4-1</a> 目錄與 <code>init-mongo.sh</code></li>
+<li><a href="#4-3-設定腳本權限工作排程器">§4-3</a> 腳本 <code>chmod +x</code> 與 CRLF 清理</li>
+<li><a href="#5-查詢-puid--pgid無-ssh">§5</a> PUID / PGID 查詢</li>
+<li><a href="#61-完整-docker-composeyml">§6-1</a> compose 密碼與 PUID/PGID 已替換</li>
+</ul>
+</div>
+<ol>
+<li>開啟 <strong>Container Manager → 專案 → 新增</strong></li>
+<li>專案名稱：<code>unifi</code></li>
+<li>路徑：<code>/volume1/docker/unifi</code>（含 <code>docker-compose.yml</code> 或於 UI 貼上 YAML）</li>
+<li>來源選 <strong>建立 docker-compose.yml</strong>，貼上 <a href="#61-完整-docker-composeyml">§6-1</a> 內容並替換密碼與 PUID/PGID</li>
+<li><strong>下一步 → 完成</strong>，等待映像檔下載與容器啟動</li>
+<li>確認兩個容器狀態皆為<strong>運行中</strong>（綠點）：<ul>
+<li><code>unifi-db</code> 日誌應含 <code>Waiting for connections on port 27017</code></li>
+<li><code>unifi-network-application</code> 首次啟動可能需 1～3 分鐘</li>
+</ul>
+</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Checkpoint</p>
+<ol>
+<li>專案 <code>unifi</code> 內兩個容器皆正常運行，無「重啟中...」循環。</li>
+<li>瀏覽器可開啟 <code>https://&lt;NAS_IP&gt;:8444</code>（憑證警告選「進階 → 繼續」）。</li>
+<li>完成 UniFi 首次設定精靈或還原備份。</li>
+<li><strong>繼續 <a href="#8-override-inform-host-與裝置-adoption">§8 Override Inform Host</a></strong>——在 Docker 環境下此步驟為<strong>必要</strong>，否則 AP 無法完成 adoption。</li>
+</ol>
+</div>
+<hr />
+<h2 id="8-override-inform-host-adoption">8. Override Inform Host 與裝置 Adoption<a class="headerlink" href="#8-override-inform-host-adoption" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Docker 環境必做</p>
+<p>Controller 跑在容器內時，預設可能告知 AP 連線至 Docker 內網 IP（如 <code>172.x.x.x:8080</code>）。<br />
+AP 在區網上找不到該位址，就會出現 <strong>Adopting 迴圈</strong>、<strong>斷線後再 Adopting</strong>，且 AP LED 維持<strong>常亮白</strong>（待 adoption）。<br />
+必須 <strong>Override Inform Host</strong> 為 <strong>NAS 的區網 IP</strong>，並<strong>重啟 UniFi 容器</strong>使設定生效。</p>
+</div>
+<h3 id="8-1">8-1. 網路拓撲前提<a class="headerlink" href="#8-1" title="Permanent link">&para;</a></h3>
+<p>本教學假設 AP 與 NAS 接在同一 router、同一子網，例如：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Internet ─ Router (192.168.0.1) ─┬─ NAS / Controller  192.168.0.239
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>                                 └─ U7 Pro            192.168.0.213
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NAS IP</strong></td>
+<td>Controller 所在位址，Inform Host 須填此 IP（非 Docker 內網 IP）</td>
+</tr>
+<tr>
+<td><strong>AP IP</strong></td>
+<td>與 NAS 須在同一子網（如皆為 <code>192.168.0.x</code>）</td>
+</tr>
+<tr>
+<td><strong>子網判斷</strong></td>
+<td><code>192.168.0.239</code> 屬 <code>192.168.0.0/24</code>，與 <code>192.168.1.x</code> <strong>不同子網</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="8-2-override-inform-host">8-2. 設定 Override Inform Host<a class="headerlink" href="#8-2-override-inform-host" title="Permanent link">&para;</a></h3>
+<ol>
+<li>登入 UniFi Web UI：<code>https://&lt;NAS_IP&gt;:8444</code></li>
+<li>前往 <strong>Settings → System → Advanced</strong><br />
+   （部分版本在 <strong>Settings → System → Application Configuration</strong>，或可直接搜尋 <strong>Inform</strong>）</li>
+<li>找到 <strong>Inform Host</strong> / <strong>Override Inform Host</strong></li>
+<li><strong>勾選 Override（覆寫）</strong></li>
+<li>填入 <strong>NAS 的區網 IP</strong>（例如 <code>192.168.0.239</code>）</li>
+<li><strong>儲存</strong></li>
+<li><strong>Container Manager → 容器 → <code>unifi-network-application</code> → 重新啟動</strong></li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">為何要重啟容器？</p>
+<p>變更 Inform Host 後重啟 UniFi 容器，可避免 AP 仍收到舊的 inform URL（含 Docker 內網 IP）。</p>
+</div>
+<hr />
+<h3 id="8-3-adopt">8-3. Adopt 裝置<a class="headerlink" href="#8-3-adopt" title="Permanent link">&para;</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">方式 A — UniFi UI</label><label for="__tabbed_1_2">方式 B — SSH 手動 set-inform（建議搭配方式 A）</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ol>
+<li>確認 U7 Pro LED 為<strong>常亮白</strong>（待 adoption）</li>
+<li>在 <strong>Devices</strong> 中選取裝置 → <strong>Adopt</strong></li>
+<li>正常流程：<strong>Adopting → Provisioning → Connected</strong>，LED 變<strong>常亮藍</strong></li>
+<li>若提示韌體更新，等待完成（LED 可能白/藍閃爍），期間勿斷電</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<p>若 UI Adopt 卡住，可 SSH 至 AP 確認 inform URL：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>ssh<span class="w"> </span>ubnt@&lt;AP_IP&gt;
+</span></code></pre></div>
+<p>預設密碼通常為 <code>ubnt</code>。登入後：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>info
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>set-inform<span class="w"> </span>http://&lt;NAS_IP&gt;:8080/inform
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>info
+</span></code></pre></div>
+<p>範例（NAS <code>192.168.0.239</code>、U7 Pro <code>192.168.0.213</code>）：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>set-inform<span class="w"> </span>http://192.168.0.239:8080/inform
+</span></code></pre></div>
+<p>第二次 <code>info</code> 應顯示：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Status: Connected (http://192.168.0.239:8080/inform)
+</span></code></pre></div>
+<p>若仍為 <code>http://172.x.x.x:8080/inform</code>，代表 Override 未生效或未重啟容器，請回到 <a href="#8-2-設定-override-inform-host">§8-2</a>。</p>
+</div>
+</div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">8080 埠映射</p>
+<p><code>8080</code> 須維持 compose 中 <code>8080:8080</code> 映射。若 host 埠改為 <code>8090:8080</code>，Inform 須改為 <code>http://&lt;NAS_IP&gt;:8090/inform</code>。</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Checkpoint</p>
+<ol>
+<li>Override Inform Host 已勾選，且為 NAS 區網 IP。</li>
+<li>已重啟 <code>unifi-network-application</code> 容器。</li>
+<li>AP <code>info</code> 顯示 inform URL 指向 <code>http://&lt;NAS_IP&gt;:8080/inform</code>。</li>
+<li>裝置狀態為 <strong>Connected</strong>，AP LED 為<strong>常亮藍</strong>。</li>
+</ol>
+</div>
+<hr />
+<h3 id="8-4-ap-ip">8-4. 將 AP 設為靜態 IP<a class="headerlink" href="#8-4-ap-ip" title="Permanent link">&para;</a></h3>
+<p>Adopt 成功後，建議將 AP 改為 <strong>Static</strong>，避免 DHCP 換 IP 後難以 SSH 或管理。</p>
+<h4 id="8-4-1">8-4-1. 進入設定頁面<a class="headerlink" href="#8-4-1" title="Permanent link">&para;</a></h4>
+<ol>
+<li>UniFi Web UI → <strong>Devices</strong></li>
+<li>點選 AP（例如 <strong>U7 Pro</strong>）</li>
+<li>開啟 <strong>Settings</strong>（或 <strong>Manage</strong> → <strong>Settings</strong>）</li>
+<li>找到 <strong>IP Settings</strong>（或 <strong>Network</strong> → <strong>IP Configuration</strong>）</li>
+<li>選 <strong>Static</strong>（不要維持 DHCP）</li>
+</ol>
+<h4 id="8-4-2-ip">8-4-2. 設定靜態 IP<a class="headerlink" href="#8-4-2-ip" title="Permanent link">&para;</a></h4>
+<p>以下以 <strong><code>192.168.0.0/24</code></strong> 子網、router Gateway <strong><code>192.168.0.1</code></strong>、NAS <strong><code>192.168.0.239</code></strong> 為例。<br />
+請將 IP 改成你環境中<strong>未被占用</strong>的位址：</p>
+<table>
+<thead>
+<tr>
+<th>欄位</th>
+<th style="text-align: center;">必填</th>
+<th>填入範例</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IP Configuration</strong></td>
+<td style="text-align: center;">✅</td>
+<td><strong>Static</strong></td>
+<td>選靜態，勿用 DHCP</td>
+</tr>
+<tr>
+<td><strong>IP Address</strong></td>
+<td style="text-align: center;">✅</td>
+<td><code>192.168.0.210</code></td>
+<td>AP 固定 IP；勿與 NAS（<code>.239</code>）或其他裝置衝突</td>
+</tr>
+<tr>
+<td><strong>Subnet Mask</strong></td>
+<td style="text-align: center;">✅</td>
+<td><code>255.255.255.0</code></td>
+<td><code>/24</code> 子網一律填此值</td>
+</tr>
+<tr>
+<td><strong>Gateway</strong></td>
+<td style="text-align: center;">✅</td>
+<td><code>192.168.0.1</code></td>
+<td>router LAN IP；<strong>不可留空</strong></td>
+</tr>
+<tr>
+<td><strong>Preferred DNS</strong></td>
+<td style="text-align: center;">✅</td>
+<td><code>192.168.0.1</code></td>
+<td>可填 router IP；或 <code>8.8.8.8</code> / <code>1.1.1.1</code></td>
+</tr>
+<tr>
+<td><strong>Alternate DNS</strong></td>
+<td style="text-align: center;">—</td>
+<td><code>8.8.4.4</code></td>
+<td>選填；可留空</td>
+</tr>
+<tr>
+<td><strong>DNS Suffix</strong></td>
+<td style="text-align: center;">—</td>
+<td>（留空）</td>
+<td>家用／實驗室通常不需要</td>
+</tr>
+</tbody>
+</table>
+<p><strong>填完後按 Apply / Save</strong>，AP 會短暫斷線並以新 IP 重新連線；LED 應維持<strong>常亮藍</strong>。</p>
+<div class="admonition warning">
+<p class="admonition-title">常見錯誤</p>
+<table>
+<thead>
+<tr>
+<th>錯誤</th>
+<th>後果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Subnet Mask / Gateway 留空</strong></td>
+<td>AP 無法對外連線，韌體更新、NTP 失敗</td>
+</tr>
+<tr>
+<td><strong>IP 與 NAS / router 衝突</strong></td>
+<td>網路不穩或無法連線</td>
+</tr>
+<tr>
+<td><strong>Gateway 填成 NAS IP</strong></td>
+<td>AP 無法上網；Gateway 應為 <strong>router</strong>，不是 Controller</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">靜態 IP 選址</p>
+<ul>
+<li>建議選 router DHCP 池<strong>以外</strong>的位址，或於 router 對 AP MAC 做 <strong>DHCP 保留</strong></li>
+<li>變更 IP 後，SSH 須改用新位址，例如 <code>ssh ubnt@192.168.0.210</code></li>
+<li>Inform Host 仍指向 <strong>NAS IP</strong>（<code>192.168.0.239</code>），與 AP 靜態 IP 無關</li>
+</ul>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Checkpoint</p>
+<ol>
+<li>AP 在 <strong>Devices</strong> 中顯示固定 IP（如 <code>192.168.0.210</code>）。</li>
+<li>狀態 <strong>Connected</strong>，LED <strong>常亮藍</strong>。</li>
+<li>同子網電腦可 <code>ping 192.168.0.210</code>。</li>
+</ol>
+</div>
+<hr />
+<h2 id="9">9. 常見問題<a class="headerlink" href="#9" title="Permanent link">&para;</a></h2>
+<h3 id="9-1-driver-failed-programming-external-connectivity">9-1. <code>driver failed programming external connectivity</code><a class="headerlink" href="#9-1-driver-failed-programming-external-connectivity" title="Permanent link">&para;</a></h3>
+<p>代表 <strong>Host 埠已被佔用</strong>。Synology 常見衝突：</p>
+<table>
+<thead>
+<tr>
+<th>埠</th>
+<th>常見佔用者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>8443</code></td>
+<td>CardDAV Server</td>
+</tr>
+<tr>
+<td><code>1900/udp</code></td>
+<td>DSM SSDP / UPnP</td>
+</tr>
+<tr>
+<td><code>8080</code></td>
+<td>其他容器或套件</td>
+</tr>
+</tbody>
+</table>
+<p><strong>排查（工作排程器，使用者 root，執行一次）：</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>netstat<span class="w"> </span>-tulpn<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;:(8080|8443|8444|1900|3478|10001) &#39;</span><span class="w"> </span>&gt;<span class="w"> </span>/volume1/docker/unifi/port-check.txt
+</span></code></pre></div>
+<p>至 File Station 查看 <code>port-check.txt</code> 中 <strong>LISTEN</strong> 的埠，調整 compose 映射或關閉衝突服務。</p>
+<p><strong>逐步加回埠</strong>：若不確定哪個埠衝突，可先只保留 <code>8444:8443</code> 確認能啟動，再逐一加回 8080、3478、10001。</p>
+<hr />
+<h3 id="9-2-ap-adopting-led">9-2. AP 卡在 Adopting 迴圈 / LED 常亮白<a class="headerlink" href="#9-2-ap-adopting-led" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>現象</th>
+<th>可能原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adopting → 斷線 → 再 Adopting</td>
+<td>Inform Host 未 Override，AP 收到 Docker 內網 IP</td>
+</tr>
+<tr>
+<td>LED <strong>常亮白</strong></td>
+<td>尚未 adoption 成功（成功後通常為<strong>常亮藍</strong>）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>處理步驟：</strong></p>
+<ol>
+<li>依 <a href="#8-2-設定-override-inform-host">§8-2</a> 設定 Override 並重啟 UniFi 容器</li>
+<li>確認 compose 已映射 <code>8080:8080</code>、<code>3478/udp</code>、<code>10001/udp</code></li>
+<li>從同子網裝置測試 <code>http://&lt;NAS_IP&gt;:8080</code> 可連線（非 timeout）</li>
+<li>SSH 至 AP 執行 <code>set-inform http://&lt;NAS_IP&gt;:8080/inform</code>，以 <code>info</code> 確認 URL 正確</li>
+<li>仍失敗時，Forget 裝置 → 長按 AP Reset → 重新 Adopt</li>
+</ol>
+<hr />
+<h3 id="9-3-unifi-db-exitcode-100">9-3. <code>unifi-db</code> 不斷重啟（exitCode 100）<a class="headerlink" href="#9-3-unifi-db-exitcode-100" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>原因</th>
+<th>解法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>跳過 <a href="#4-3-設定腳本權限工作排程器">§4-3</a></td>
+<td>重新以 root 工作排程器執行 <code>chmod +x</code> 與 <code>sed</code></td>
+</tr>
+<tr>
+<td>未設定 MongoDB 密碼</td>
+<td>在 YAML 設好密碼，<code>MONGO_PASS</code> 兩容器一致</td>
+</tr>
+<tr>
+<td>命名 volume 含錯誤初始化資料</td>
+<td><strong>Container Manager → 磁碟區</strong>，刪除 <code>unifi-mongo-data</code> 後重新部署</td>
+</tr>
+</tbody>
+</table>
+<p><strong>重建流程：</strong></p>
+<ol>
+<li>停止 unifi 專案  </li>
+<li>刪除命名 volume <code>unifi-mongo-data</code>  </li>
+<li>確認 <a href="#4-3-設定腳本權限工作排程器">§4-3</a> 已執行  </li>
+<li>確認 YAML 密碼已設定 → 重新部署  </li>
+</ol>
+<hr />
+<h3 id="9-4-undefined-volume-unifi-mongo-data">9-4. <code>undefined volume unifi-mongo-data</code><a class="headerlink" href="#9-4-undefined-volume-unifi-mongo-data" title="Permanent link">&para;</a></h3>
+<p><code>unifi-db</code> 使用了命名 volume，但 compose 檔<strong>缺少</strong>底部宣告：</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">unifi-mongo-data</span><span class="p">:</span>
+</span></code></pre></div>
+<p>補上後重新部署即可。</p>
+<hr />
+<h3 id="9-5-web-ui">9-5. Web UI 無法連線<a class="headerlink" href="#9-5-web-ui" title="Permanent link">&para;</a></h3>
+<ul>
+<li>確認使用 <strong><code>https://</code> 與正確 host 埠</strong>（本教學為 <code>8444</code>）</li>
+<li>等待容器完全啟動（查看 <code>unifi-network-application</code> 日誌）</li>
+<li>確認 <code>unifi-db</code> 已穩定運行（UniFi 依賴 MongoDB）</li>
+<li><strong>控制台 → 安全性 → 防火牆</strong>：允許 8444、8080 等埠</li>
+</ul>
+<hr />
+<h3 id="9-6">9-6. 更新與備份<a class="headerlink" href="#9-6" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>更新</strong>：Container Manager → 專案 → 重建／拉取新映像；更新前請在 UniFi UI <strong>匯出備份</strong></li>
+<li><strong>備份</strong>：UniFi 設定備份 + 命名 volume <code>unifi-mongo-data</code> + <code>/volume1/docker/unifi/config/</code></li>
+<li>MongoDB 映像請<strong>固定版本 tag</strong>（如 <code>mongo:7.0</code>），勿用 <code>latest</code>（主版本不可自動升級）</li>
+</ul>
+<hr />
+<h3 id="9-7-server">9-7. 每次重啟容器都被強制要求重新設定server帳密（完全失憶）<a class="headerlink" href="#9-7-server" title="Permanent link">&para;</a></h3>
+<p>此情況是因為 UniFi 容器沒有權限將核心設定檔寫入 NAS 實體硬碟(<code>/config</code>)所致。</p>
+<p>解法：</p>
+<p>請回到 §5-3. 設定實體資料夾權限，確認config 資料夾的權限已開放給 PUID 對應的使用者帳號才能順利寫入存檔。</p>
+<hr />
+<h3 id="9-8">9-8. 進階補充：為何資料庫不使用實體路徑掛載？<a class="headerlink" href="#9-8" title="Permanent link">&para;</a></h3>
+<p>在 Docker 的使用習慣上，將所有資料都掛載到 NAS 的實體資料夾（Bind Mount）便於備份。但在本教學中，我們的架構採用了<strong>「混合式掛載」</strong>： </p>
+<ul>
+<li>
+<p><strong>主程式設定 (<code>/config</code>)</strong> ➔ 掛載於實體路徑（方便備份與修改）。</p>
+</li>
+<li>
+<p><strong>資料庫 (<code>/data/db</code>)</strong> ➔ 使用 Docker 命名卷（Named Volume <code>unifi-mongo-data</code>）。</p>
+</li>
+</ul>
+<p>這是為了避開最常遇到的 <strong>「UID 999 權限問題」</strong>，原因如下：</p>
+<ol>
+<li>
+<ul>
+<li>我們使用的 UniFi 主程式映像檔（<code>linuxserver</code>）非常貼心，支援透過 <code>PUID</code> 與 <code>PGID</code> 變數來指定寫入權限，因此只要把(<code>/config</code>) 開權限給<code>PUID</code>對應使用者即可。</li>
+<li>然而，<strong>官方的 <code>mongo:7.0</code> 映像檔並不支援 <code>PUID/PGID</code></strong>。它在容器內部被強制規定只能使用一個名為 <code>mongodb</code> 的內建帳號來運行，而這個帳號的 UID 固定為 <strong>999</strong>。</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>
+<p>如果我們將資料庫強制掛載到 NAS 的實體資料夾（例如 <code>- /   volume1/docker/db:/data/db</code>），<strong>MongoDB 啟動時會以「UID 999」的身分試圖寫入 NAS 硬碟</strong>。</p>
+</li>
+<li>
+<p>由於你的 NAS 系統中通常不存在 UID 999 這個使用者，NAS 系統的資安防護會直接拒絕寫入。這將導致 MongoDB 容器啟動失敗，並不斷拋出 <code>Permission Denied</code> 或 <code>Exit Code 100</code> 的錯誤而無限重啟。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>解法與最佳實踐
+    若堅持要使用實體路徑，管理者必須透過 SSH 進入 NAS，強制將該資料夾的擁有者改為 999（執行 <code>chown -R 999:999 /volume1/docker/db</code>），這大幅增加了架設的技術門檻。</p>
+</li>
+</ol>
+<p>因此，<strong>將資料庫交給 Docker 命名卷（Named Volume）管理是此架構下的最佳實踐</strong>。Docker 系統會在底層自動用最高權限處理好這堆二進制檔案的讀寫問題，確保部署流程順暢且不會報錯！</p>
+<hr />
+<h2 id="10">10. 參考連結<a class="headerlink" href="#10" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://docs.linuxserver.io/images/docker-unifi-network-application/">LinuxServer.io — unifi-network-application</a></li>
+<li><a href="../oweek/4.docker/">O-Week — 4. Docker</a></li>
+<li><a href="https://ui.com/">Ubiquiti UniFi Network</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到頂端
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="頁腳" >
+        
+          
+          <a href="../5.zenoh-middleware/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: 5.Zenoh Middleware">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一頁
+              </span>
+              <div class="md-ellipsis">
+                5.Zenoh Middleware
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../robot/" class="md-footer__link md-footer__link--next" aria-label="下一頁: Robot">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一頁
+              </span>
+              <div class="md-ellipsis">
+                Robot
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.footnote.tooltips", "content.tabs.link", "content.tooltips", "header.tabs.sticky", "header.tabs.sticky.scrollable", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "navigation.tracking.scrollable", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u8907\u88fd", "clipboard.copy": "\u8907\u88fd", "search.result.more.one": "\u6b64\u9801\u5c1a\u6709 1 \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.more.other": "\u6b64\u9801\u5c1a\u6709 # \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.none": "\u6c92\u6709\u7b26\u5408\u7684\u9805\u76ee", "search.result.one": "\u627e\u5230 1 \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.other": "\u627e\u5230 # \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.placeholder": "\u6253\u5b57\u9032\u884c\u641c\u5c0b", "search.result.term.missing": "\u7f3a\u5c11\u5b57\u8a5e", "select.version": "\u9078\u64c7\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
